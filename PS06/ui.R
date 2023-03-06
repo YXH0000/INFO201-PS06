@@ -20,11 +20,23 @@ ui <- fluidPage(
              p("The data set contains", textOutput("num_rows"), " observations."),
              p("Some sample data displayed in the following table:"),
              tableOutput("sample_data")
-    )),
-  tabPanel("Plot",
-           ),
-  tabPanel("Table",
-           ),
-  
+    ),
+    tabPanel("Plot",
+             titlePanel("Plot of temperature in different region"),
+             sidebarLayout(
+               sidebarPanel(
+                 # Add input controls for the plot here
+               ),
+               mainPanel(
+                 # Add the plot output here
+               )
+             )
+    ),
+    
+    # Add a tab panel titled "Table"
+    tabPanel("Table",
+             titlePanel("Table of temperature data"),
+             dataTableOutput("table_data")
+    )
+  )
 )
-
