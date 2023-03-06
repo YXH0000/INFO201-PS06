@@ -1,33 +1,30 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(dplyr)
+library(reader)
+library(ggplot2)
 
-# Define UI for application that draws a histogram
-fluidPage(
+setwd("C:/Users/think/Documents/Academics/INFO201/INFO201-PS06/PS06")
+getwd()
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
-    )
+ui <- fluidPage(
+  # Add a tabset panel
+  tabsetPanel(
+    tabPanel("About",
+             titlePanel("INFO201-PS06"),
+             p("This application makes use of ",
+               strong("UAH"),
+               " satellite temperature data."),
+             p(em("temp"),
+               ": temperature deviation (deg C) from 1991-2020 average."),
+             a("You can download the data from UAH lower troposphere", href='https://www.nsstc.uah.edu/data/msu/v6.0/tlt/uahncdc_lt_6.0.txt'),
+             p("The data set contains", textOutput("num_rows"), " observations."),
+             p("Some sample data displayed in the following table:"),
+             tableOutput("sample_data")
+    )),
+  tabPanel("Plot",
+           ),
+  tabPanel("Table",
+           ),
+  
 )
+

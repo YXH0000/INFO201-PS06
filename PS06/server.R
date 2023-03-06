@@ -1,28 +1,23 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(dplyr)
+library(reader)
+library(ggplot2)
 
-# Define server logic required to draw a histogram
-function(input, output, session) {
+setwd("C:/Users/think/Documents/Academics/INFO201/INFO201-PS06/PS06")
+getwd()
 
-    output$distPlot <- renderPlot({
+uah <- read.delim("UAH-lower-troposphere-long.csv.bz2")
+head(uah)
 
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-
-    })
-
+server <- function(input, output) {
+  # Return the number of rows in the UAH data
+  output$num_rows <- renderText({
+    nrow(uah)
+  })
+  
+  # Return the first 10 rows of the UAH data
+  output$sample_data <- renderTable({
+    uah[sample(nrow(uah), 10), ]
+  })
+  
 }
