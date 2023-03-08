@@ -3,12 +3,16 @@ library(dplyr)
 library(reader)
 library(ggplot2)
 
-setwd("C:/Users/think/Documents/Academics/INFO201/INFO201-PS06/PS06")
-getwd()
+
+
+uah <- read.delim("UAH-lower-troposphere-long.csv.bz2")
 
 ui <- fluidPage(
-  # Add a tabset panel
+  
+  # Create a tabset panel
   tabsetPanel(
+    
+    # Add a tab panel titled "About"
     tabPanel("About",
              titlePanel("INFO201-PS06"),
              p("This application makes use of ",
@@ -21,14 +25,24 @@ ui <- fluidPage(
              p("Some sample data displayed in the following table:"),
              tableOutput("sample_data")
     ),
+    
+    # Add a tab panel titled "Plot"
     tabPanel("Plot",
              titlePanel("Plot of temperature in different region"),
              sidebarLayout(
                sidebarPanel(
-                 # Add input controls for the plot here
+                 p("You can select the global temperature by select the different regions
+                   You see a monthly scatterplot."),
+                 
+                 radioButtons("color_palette", "Select a palette:",
+                              c("Palette 1", "Palette 2"), 
+                              selected = "Palette 1"),
+                 checkboxGroupInput("select_region", "select region(s) to display",
+                                    choices = unique(uah$region), 
+                                    selected = "globe")
                ),
                mainPanel(
-                 # Add the plot output here
+                 plotOutput(outputId = "scatterplot",width = "100%")
                )
              )
     ),
@@ -36,7 +50,18 @@ ui <- fluidPage(
     # Add a tab panel titled "Table"
     tabPanel("Table",
              titlePanel("Table of temperature data"),
-             dataTableOutput("table_data")
+             sidebarLayout(
+               sidebarPanel(
+                 p("This panel displays average temperature over different time periods:"),
+                 radioButtons("choosetime", "strong(Average Over):",
+                              c("month","year","decade"),
+                              selected = "month"),
+               )
+             ),
+             mainPanel(
+               dataTableOutput(outputId = "data_table")
+             )
+             
     )
   )
 )
