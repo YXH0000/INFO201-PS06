@@ -35,8 +35,27 @@ server <- function(input, output) {
   
   # Table of average temperature over different time periods
   output$data_table <- renderDataTable({
-    uah_table <- uah %>% 
-      region
+    table <- input$variable
+    if(table == "year"){
+      uah_table <- uah %>% 
+        group_by(year) %>% 
+        reframe(ave_temp = round(mean(temp), 4))
+    }
+    else{
+      if(table == "month"){
+        uah_table <- uah %>% 
+          group_by(year, month) %>% 
+          reframe(ave_temp = round(mean(temp), 4))
+      }
+      else{
+        if(table == "region"){
+          uah_table <- uah %>% 
+            group_by(region) %>% 
+            reframe(ave_temp = round(mean(temp), 4))
+        }
+      }
+      
+    }
   })
     
 }
