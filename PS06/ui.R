@@ -47,21 +47,16 @@ ui <- fluidPage(
              )
     ),
     
+    
     # Add a tab panel titled "Table"
     tabPanel("Table",
              titlePanel("Table of temperature data"),
              sidebarLayout(
                sidebarPanel(
                  p("This panel displays average temperature over different time periods:"),
-                 radioButtons("choosetime", "strong(Average Over):",
-                              c("month","year","decade"),
-                              selected = "month"),
-               )
-             ),
-             mainPanel(
-               dataTableOutput(outputId = "data_table")
+                 radioButtons("choosetime", "strong(Average Over):",c("month","year","region"),selected = "month")),
+               mainPanel(dataTableOutput(outputId = "data_table"))
              )
-             
     )
   )
 )

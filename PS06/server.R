@@ -35,29 +35,30 @@ server <- function(input, output) {
   
   # Table of average temperature over different time periods
   output$data_table <- renderDataTable({
-    table <- input$variable
+    table <- input$choosetime
     if(table == "year"){
-      table <- uah %>% 
+      uah %>% 
         group_by(year) %>% 
-        summarise(ave_temp = round(mean(temp), 4))
+        reframe(ave_temp = round(mean(temp), 4))
     }
     else{
       if(table == "month"){
-        table <- uah %>% 
+        uah %>% 
           group_by(year, month) %>% 
-          summarise(ave_temp = round(mean(temp), 4))
+          reframe(ave_temp = round(mean(temp), 4))
       }
       else{
         if(table == "region"){
-          table <- uah %>% 
+          uah %>% 
             group_by(region) %>% 
-            summarise(ave_temp = round(mean(temp), 4))
-        } 
+            reframe(ave_temp = round(mean(temp), 4))
+        }
       }
+      
     }
-    return(table)
   })
-    
+  
 }
+
 
 shinyServer(server)
